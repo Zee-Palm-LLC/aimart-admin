@@ -8,9 +8,9 @@ class ProductSize {
 
   Map<String, dynamic> toMap() {
     final result = <String, dynamic>{};
-  
+
     result.addAll({'size': size});
-  
+
     return result;
   }
 
@@ -22,5 +22,14 @@ class ProductSize {
 
   String toJson() => json.encode(toMap());
 
-  factory ProductSize.fromJson(String source) => ProductSize.fromMap(json.decode(source));
+  factory ProductSize.fromJson(String source) =>
+      ProductSize.fromMap(json.decode(source));
 }
+
+List<ProductSize> sizeList = [
+  ProductSize(size: 'XXL'),
+  ProductSize(size: 'XL'),
+  ProductSize(size: 'L'),
+  ProductSize(size: 'M'),
+  ProductSize(size: 'S'),
+];

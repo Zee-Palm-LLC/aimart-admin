@@ -10,9 +10,9 @@ class ProductColor {
 
   Map<String, dynamic> toMap() {
     final result = <String, dynamic>{};
-  
+
     result.addAll({'color': color.value});
-  
+
     return result;
   }
 
@@ -24,7 +24,6 @@ class ProductColor {
 
   String toJson() => json.encode(toMap());
 
-  factory ProductColor.fromJson(String source) => ProductColor.fromMap(json.decode(source));
+  factory ProductColor.fromJson(String source) =>
+      ProductColor.fromMap(json.decode(source));
 }
-
-

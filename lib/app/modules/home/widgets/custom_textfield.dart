@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../data/data.dart';
@@ -11,14 +12,18 @@ class CustomTextFormField extends StatefulWidget {
   final String hintText;
   final String? Function(String?)? validator;
   int fieldWidth;
+  int maxLines;
+  List<TextInputFormatter>? inputFormatters;
   CustomTextFormField(
       {Key? key,
+      this.maxLines = 1,
       required this.controller,
       required this.isPassword,
       required this.textInputAction,
       required this.keyboardType,
       required this.hintText,
       required this.validator,
+      this.inputFormatters,
       this.fieldWidth = 300})
       : super(key: key);
   @override
@@ -42,6 +47,8 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
       child: Theme(
         data: ThemeData(hintColor: CustomColors.kGrey2),
         child: TextFormField(
+          maxLines: widget.maxLines,
+          inputFormatters: widget.inputFormatters,
           controller: widget.controller,
           validator: widget.validator,
           textInputAction: widget.textInputAction,

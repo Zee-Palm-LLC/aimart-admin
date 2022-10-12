@@ -6,7 +6,7 @@ import 'color.dart';
 
 ThemeData mainTheme = ThemeData(
     fontFamily: GoogleFonts.plusJakartaSans().fontFamily,
-    textTheme: GoogleFonts.poppinsTextTheme(),
+    textTheme: GoogleFonts.plusJakartaSansTextTheme(),
     primaryColor: CustomColors.kPrimary,
     primarySwatch: Colors.blue,
     scaffoldBackgroundColor: CustomColors.kLightBackground,
