@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:aimart_admin/app/data/data.dart';
 import 'package:aimart_admin/app/modules/home/model/product_size_model.dart';
 import 'package:aimart_admin/app/modules/home/model/producttag.dart';
@@ -11,7 +9,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:multi_select_flutter/multi_select_flutter.dart';
 
 import '../../../../services/firebase_storage.dart';
@@ -34,6 +31,7 @@ class _AddProductState extends State<AddProduct> {
   final TextEditingController _discountPrice = TextEditingController();
   ProductCategory selectedProductCategory = ProductCategory.all;
   Tagtype selectedProductTag = Tagtype.bestseller;
+
   final _items = sizeList
       .map((size) => MultiSelectItem<ProductSize>(size, size.size))
       .toList();
@@ -60,16 +58,25 @@ class _AddProductState extends State<AddProduct> {
                 scrollDirection: Axis.horizontal,
                 physics: const BouncingScrollPhysics(),
                 children: [
-                  AddImage(onTap: () async {
-                    var imgData = await ImagePickerServices.getImageAsFile();
-                    if (imgData == null) return;
+                  AddImage(
+                      onTap: images!.length < 3
+                          ? () async {
+                              print(images!.length);
+                              var imgData =
+                                  await ImagePickerServices.getImageAsFile();
+                              if (imgData == null) return;
 
-                    productImage =
-                        await FirebaseStorageServices.uploadToStorageAsHTMLFile(
-                            file: imgData, folderName: "ProductImages");
-                    images!.add(productImage);
-                    setState(() {});
-                  }),
+                              productImage = await FirebaseStorageServices
+                                  .uploadToStorageAsHTMLFile(
+                                      file: imgData,
+                                      folderName: "ProductImages");
+                              images!.add(productImage);
+                              setState(() {});
+                            }
+                          : () {
+                              Get.snackbar('Limit Reached',
+                                  'You Can only select upto three images');
+                            }),
                   SizedBox(width: 20.w),
                   ListView.separated(
                     scrollDirection: Axis.horizontal,
@@ -81,10 +88,11 @@ class _AddProductState extends State<AddProduct> {
                         height: 100.h,
                         width: 100.w,
                         decoration: BoxDecoration(
-                          color: CustomColors.kBlack,
-                          borderRadius: BorderRadius.circular(10.r),
-                        ),
-                        child: Image.asset(images![index]),
+                            color: CustomColors.kBlack,
+                            borderRadius: BorderRadius.circular(10.r),
+                            image: DecorationImage(
+                                image: NetworkImage(images![index]),
+                                fit: BoxFit.cover)),
                       );
                     },
                     separatorBuilder: (context, index) => SizedBox(width: 9.w),
@@ -144,11 +152,9 @@ class _AddProductState extends State<AddProduct> {
             ],
           ),
           SizedBox(height: 20.h),
-          Text(
-            "Product Description",
-            style: CustomTextStyles.kBold16
-                .copyWith(color: CustomColors.kDarkBlue),
-          ),
+          Text("Product Description",
+              style: CustomTextStyles.kBold16
+                  .copyWith(color: CustomColors.kDarkBlue)),
           SizedBox(height: 10.h),
           Padding(
             padding: EdgeInsets.only(right: 495.w),
@@ -297,6 +303,10 @@ class _AddProductState extends State<AddProduct> {
                       initialChildSize: 0.4,
                       listType: MultiSelectListType.CHIP,
                       searchable: true,
+                      buttonIcon: Icon(
+                        Icons.keyboard_arrow_down,
+                        color: CustomColors.kDarkBlue,
+                      ),
                       buttonText: Text(
                         "Avaliable Size",
                         style: CustomTextStyles.kBold16
