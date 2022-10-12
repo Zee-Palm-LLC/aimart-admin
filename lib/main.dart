@@ -1,4 +1,7 @@
+import 'package:aimart_admin/app/data/theme.dart';
+import 'package:aimart_admin/app/modules/home/views/splash/splash_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:get/get.dart';
 
@@ -13,10 +16,17 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
-      title: "Application",
-      initialRoute: AppPages.INITIAL,
-      getPages: AppPages.routes,
+    return ScreenUtilInit(
+      designSize: const Size(1440, 720),
+      builder: (context, widget) {
+        return GetMaterialApp(
+            title: "Flutter Express",
+            debugShowCheckedModeBanner: false,
+            themeMode: ThemeMode.light,
+            home: const SplashScreen(),
+            defaultTransition: Transition.rightToLeft,
+            theme: mainTheme);
+      },
     );
   }
 }
