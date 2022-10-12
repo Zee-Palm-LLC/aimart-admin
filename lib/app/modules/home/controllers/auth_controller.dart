@@ -1,23 +1,26 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 
-class HomeController extends GetxController {
-  //TODO: Implement HomeController
+import '../widgets/loading_dialog.dart';
 
-  final count = 0.obs;
-  @override
-  void onInit() {
-    super.onInit();
+class AuthController extends GetxController {
+  FirebaseAuth _auth = FirebaseAuth.instance;
+
+  Future<void> signOut() async {
+    showLoadingDialog(message: "Signing out...");
+    await _auth.signOut();
+    hideLoadingDialog();
   }
 
-  @override
-  void onReady() {
-    super.onReady();
+  Future<void> signInWithEmailAndPassword(
+      {required String email, required String password}) async {
+    showLoadingDialog(message: 'Signing in...');
+    try {
+      await _auth.signInWithEmailAndPassword(email: email, password: password);
+      hideLoadingDialog();
+    } on FirebaseAuthException catch (err) {
+      hideLoadingDialog();
+      Get.snackbar('Error', err.message!);
+    }
   }
-
-  @override
-  void onClose() {
-    super.onClose();
-  }
-
-  void increment() => count.value++;
 }

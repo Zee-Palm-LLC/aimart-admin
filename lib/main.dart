@@ -1,14 +1,21 @@
 import 'package:aimart_admin/app/data/theme.dart';
+import 'package:aimart_admin/app/modules/home/bindings/home_binding.dart';
 import 'package:aimart_admin/app/modules/home/views/splash/splash_screen.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:get/get.dart';
+import 'firebase_options.dart';
 
-import 'app/routes/app_pages.dart';
-
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(const MyApp());
+  SystemChrome.setPreferredOrientations(
+      [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+  SystemChrome.setSystemUIOverlayStyle(defaultOverlay);
 }
 
 class MyApp extends StatelessWidget {
@@ -20,10 +27,11 @@ class MyApp extends StatelessWidget {
       designSize: const Size(1440, 720),
       builder: (context, widget) {
         return GetMaterialApp(
-            title: "Flutter Express",
+            title: "Aimart",
             debugShowCheckedModeBanner: false,
             themeMode: ThemeMode.light,
             home: const SplashScreen(),
+            initialBinding: HomeBinding(),
             defaultTransition: Transition.rightToLeft,
             theme: mainTheme);
       },

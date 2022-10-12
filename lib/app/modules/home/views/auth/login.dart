@@ -1,3 +1,4 @@
+import 'package:aimart_admin/app/modules/home/controllers/auth_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -10,6 +11,7 @@ import '../../widgets/custom_textfield.dart';
 class SignInScreen extends StatelessWidget {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+  AuthController ac = Get.find<AuthController>();
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -46,7 +48,7 @@ class SignInScreen extends StatelessWidget {
                             return 'Please Enter your email';
                           } else if (!value.isEmail) {
                             return 'Email is not correct';
-                          } else if (value != "admin@jobblish.com") {
+                          } else if (value != "aimart@admin.com") {
                             // ye email hy
                             return 'Enter your admin email address';
                           }
@@ -67,9 +69,7 @@ class SignInScreen extends StatelessWidget {
                           return null;
                         },
                       ),
-                      SizedBox(
-                        height: 30,
-                      ),
+                      SizedBox(height: 30.h),
                       PrimaryAppButton(
                         width: 300,
                         backgroundColor: CustomColors.kPrimary,
@@ -78,9 +78,9 @@ class SignInScreen extends StatelessWidget {
                                 .copyWith(color: CustomColors.kWhite)),
                         onTap: () {
                           if (_formKey.currentState!.validate()) {
-                            // controller.signInWithEmailAndPassword(
-                            //     email: emailController.text,
-                            //     password: passwordController.text);
+                            ac.signInWithEmailAndPassword(
+                                email: emailController.text,
+                                password: passwordController.text);
                           }
                         },
                       ),

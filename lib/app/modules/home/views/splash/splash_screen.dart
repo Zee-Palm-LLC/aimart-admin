@@ -1,3 +1,4 @@
+import 'package:aimart_admin/app/modules/home/views/auth/auth_wrapper.dart';
 import 'package:aimart_admin/app/modules/home/views/auth/login.dart';
 import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:flutter/material.dart';
@@ -23,7 +24,7 @@ class SplashScreen extends StatelessWidget {
           Text('AIMART', style: CustomTextStyles.kBold40)
         ],
       ),
-      nextScreen: SignInScreen(),
+      nextScreen: const AuthWrapper(),
     );
   }
 }
