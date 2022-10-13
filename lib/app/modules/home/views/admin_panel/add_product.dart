@@ -1,7 +1,9 @@
 import 'package:aimart_admin/app/data/data.dart';
+import 'package:aimart_admin/app/modules/home/controllers/product_controller.dart';
+import 'package:aimart_admin/app/modules/home/model/product_color_model.dart';
 import 'package:aimart_admin/app/modules/home/model/product_size_model.dart';
 import 'package:aimart_admin/app/modules/home/model/producttag.dart';
-import 'package:aimart_admin/app/data/helper/profuct_category.dart';
+import 'package:aimart_admin/app/data/helper/product_category.dart';
 import 'package:aimart_admin/app/modules/home/widgets/add_image.dart';
 import 'package:aimart_admin/app/modules/home/widgets/custom_dropdown.dart';
 import 'package:aimart_admin/app/modules/home/widgets/custom_textfield.dart';
@@ -23,6 +25,7 @@ class AddProduct extends StatefulWidget {
 }
 
 class _AddProductState extends State<AddProduct> {
+  ProductController productController = Get.put(ProductController());
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _productName = TextEditingController();
   final TextEditingController _productType = TextEditingController();
@@ -35,7 +38,11 @@ class _AddProductState extends State<AddProduct> {
   final _items = sizeList
       .map((size) => MultiSelectItem<ProductSize>(size, size.size))
       .toList();
+  final _colouritems = colours
+      .map((colours) => MultiSelectItem<ProductColor>(colours, colours.title))
+      .toList();
   var _selectedSize = [];
+  var _selectedColour = [];
   List<String>? images = [];
   String productImage = '';
   // List<XFile> images = [];
@@ -136,7 +143,7 @@ class _AddProductState extends State<AddProduct> {
                   ),
                   SizedBox(height: 10.h),
                   CustomTextFormField(
-                      controller: _productName,
+                      controller: _productType,
                       isPassword: false,
                       textInputAction: TextInputAction.next,
                       keyboardType: TextInputType.name,
@@ -328,8 +335,64 @@ class _AddProductState extends State<AddProduct> {
                   ],
                 ),
               ),
+              SizedBox(width: 20.w),
+              Container(
+                width: 300.w,
+                decoration: BoxDecoration(
+                  color: CustomColors.kWhite,
+                  borderRadius: BorderRadius.circular(10.r),
+                  border: Border.all(color: CustomColors.kGrey2),
+                ),
+                child: Column(
+                  children: <Widget>[
+                    MultiSelectBottomSheetField(
+                      initialChildSize: 0.4,
+                      listType: MultiSelectListType.CHIP,
+                      searchable: true,
+                      buttonIcon: Icon(
+                        Icons.keyboard_arrow_down,
+                        color: CustomColors.kDarkBlue,
+                      ),
+                      buttonText: Text(
+                        "Avaliable Colours",
+                        style: CustomTextStyles.kBold16
+                            .copyWith(color: CustomColors.kDarkBlue),
+                      ),
+                      title: const Text("Colours"),
+                      items: _colouritems,
+                      onConfirm: (values) {
+                        _selectedColour = values;
+                      },
+                      chipDisplay: MultiSelectChipDisplay(
+                        onTap: (value) {
+                          setState(() {
+                            _selectedColour.remove(value);
+                          });
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+              )
             ],
           ),
+          SizedBox(
+            height: 20.h,
+          ),
+          ElevatedButton(
+              onPressed: () {
+                productController.addProduct(
+                    productName: _productName.text,
+                    productType: _productType.text,
+                    productDesscription: _productdescription.text,
+                    productCategory: selectedProductCategory,
+                    productPrice: double.parse(_price.text),
+                    oldPrice: double.parse(_discountPrice.text),
+                    productImages: images!, tag: selectedProductTag);
+                // colors: _selectedColour as List<ProductColor>,
+                // sizes: _selectedSize as List<ProductSize>);
+              },
+              child: Text('Add Product'))
         ],
       ),
     ));
