@@ -1,11 +1,13 @@
 import 'package:aimart_admin/app/data/data.dart';
-import 'package:aimart_admin/app/modules/home/model/product_color_model.dart';
-import 'package:aimart_admin/app/modules/home/model/product_size_model.dart';
-import 'package:aimart_admin/app/modules/home/model/producttag.dart';
-import 'package:aimart_admin/app/data/helper/profuct_category.dart';
+import 'package:aimart_admin/app/modules/home/controllers/product_controller.dart';
+import 'package:aimart_admin/app/modules/home/model/product_model.dart';
+import 'package:aimart_admin/app/data/helper/product_category.dart';
 import 'package:aimart_admin/app/modules/home/widgets/add_image.dart';
+import 'package:aimart_admin/app/modules/home/widgets/color_card.dart';
+import 'package:aimart_admin/app/modules/home/widgets/custom_button.dart';
 import 'package:aimart_admin/app/modules/home/widgets/custom_dropdown.dart';
 import 'package:aimart_admin/app/modules/home/widgets/custom_textfield.dart';
+import 'package:aimart_admin/app/modules/home/widgets/size_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -25,6 +27,7 @@ class AddProduct extends StatefulWidget {
 
 class _AddProductState extends State<AddProduct> {
   final _formKey = GlobalKey<FormState>();
+  ProductController pc = Get.find<ProductController>();
   final TextEditingController _productName = TextEditingController();
   final TextEditingController _productType = TextEditingController();
   final TextEditingController _productdescription = TextEditingController();
@@ -32,15 +35,11 @@ class _AddProductState extends State<AddProduct> {
   final TextEditingController _discountPrice = TextEditingController();
   ProductCategory selectedProductCategory = ProductCategory.all;
   Tagtype selectedProductTag = Tagtype.bestseller;
-  List<ProductColor> selectedColors = [];
-  final _items = sizeList
-      .map((size) => MultiSelectItem<ProductSize>(size, size.size))
-      .toList();
-  var _selectedSize = [];
+
   List<String>? images = [];
   String productImage = '';
-  // List<XFile> images = [];
-
+  List<String> selectedSize = [];
+  List<String> selectedColor = [];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -137,7 +136,7 @@ class _AddProductState extends State<AddProduct> {
                   ),
                   SizedBox(height: 10.h),
                   CustomTextFormField(
-                      controller: _productName,
+                      controller: _productType,
                       isPassword: false,
                       textInputAction: TextInputAction.next,
                       keyboardType: TextInputType.name,
@@ -289,48 +288,94 @@ class _AddProductState extends State<AddProduct> {
             ],
           ),
           SizedBox(height: 20.h),
-          Row(
-            children: [
-              Container(
-                width: 300.w,
-                decoration: BoxDecoration(
-                  color: CustomColors.kWhite,
-                  borderRadius: BorderRadius.circular(10.r),
-                  border: Border.all(color: CustomColors.kGrey2),
-                ),
-                child: Column(
-                  children: <Widget>[
-                    MultiSelectBottomSheetField(
-                      initialChildSize: 0.4,
-                      listType: MultiSelectListType.CHIP,
-                      searchable: true,
-                      buttonIcon: Icon(
-                        Icons.keyboard_arrow_down,
-                        color: CustomColors.kDarkBlue,
-                      ),
-                      buttonText: Text(
-                        "Avaliable Size",
-                        style: CustomTextStyles.kBold16
-                            .copyWith(color: CustomColors.kDarkBlue),
-                      ),
-                      title: const Text("Size"),
-                      items: _items,
-                      onConfirm: (values) {
-                        _selectedSize = values;
-                      },
-                      chipDisplay: MultiSelectChipDisplay(
-                        onTap: (value) {
-                          setState(() {
-                            _selectedSize.remove(value);
-                          });
-                        },
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
+          Text(
+            "Avaliable Size",
+            style: CustomTextStyles.kBold16
+                .copyWith(color: CustomColors.kDarkBlue),
           ),
+          SizedBox(height: 10.h),
+          Container(
+              height: 50.h,
+              child: ListView.separated(
+                  scrollDirection: Axis.horizontal,
+                  itemBuilder: (context, index) {
+                    return ProductSizeCard(
+                        onTap: () {
+                          selectedSize.contains(sizeList[index])
+                              ? selectedSize.remove(sizeList[index])
+                              : selectedSize.add(sizeList[index]);
+                          setState(() {});
+                          print(selectedSize);
+                        },
+                        cardColor: selectedSize.contains(sizeList[index])
+                            ? CustomColors.kPrimary
+                            : CustomColors.kWhite,
+                        text: sizeList[index],
+                        textColor: selectedSize.contains(sizeList[index])
+                            ? CustomColors.kWhite
+                            : CustomColors.kDarkBlue);
+                  },
+                  separatorBuilder: (context, index) => SizedBox(width: 10.w),
+                  itemCount: sizeList.length)),
+          SizedBox(height: 20.h),
+          Text(
+            "Avaliable Colors",
+            style: CustomTextStyles.kBold16
+                .copyWith(color: CustomColors.kDarkBlue),
+          ),
+          SizedBox(height: 10.h),
+          Container(
+              height: 50.h,
+              child: ListView.separated(
+                  scrollDirection: Axis.horizontal,
+                  itemBuilder: (context, index) {
+                    return ProductColorCard(
+                        onTap: () {
+                          selectedColor.contains(color[index])
+                              ? selectedColor.remove(color[index])
+                              : selectedColor.add(color[index]);
+                          setState(() {});
+                          print(selectedColor);
+                        },
+                        cardColor: CustomColors.kError,
+                        child: selectedColor.contains(color[index])
+                            ? Container(
+                                height: 40.h,
+                                width: 40.w,
+                                decoration: BoxDecoration(
+                                    color: CustomColors.kWhite,
+                                    shape: BoxShape.circle),
+                                child: Icon(Icons.done,
+                                    color: CustomColors.kDarkBlue))
+                            : const SizedBox());
+                  },
+                  separatorBuilder: (context, index) => SizedBox(width: 10.w),
+                  itemCount: sizeList.length)),
+          SizedBox(height: 20.h),
+          PrimaryAppButton(
+              width: 300.w,
+              onTap: () {
+                if (_formKey.currentState!.validate()) {
+                  pc.addProduct(
+                      product: Product(
+                          productId: '',
+                          productName: _productName.text,
+                          productType: _productType.text,
+                          productPrice: double.parse(_price.text),
+                          oldPrice: double.parse(_discountPrice.text),
+                          productCategory: selectedProductCategory,
+                          productImages: images!,
+                          productTag: selectedProductTag,
+                          description: _productdescription.text,
+                          colors: selectedColor,
+                          sizes: selectedSize));
+                }
+              },
+              backgroundColor: CustomColors.kPrimary,
+              child: Text(
+                "Add Product",
+                style: CustomTextStyles.kBold16,
+              ))
         ],
       ),
     ));

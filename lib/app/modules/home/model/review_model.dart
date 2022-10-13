@@ -14,16 +14,15 @@ class Rating {
     required this.averageRating,
   });
 
-
   Map<String, dynamic> toMap() {
     final result = <String, dynamic>{};
-  
+
     result.addAll({'senderImage': senderImage});
     result.addAll({'senderName': senderName});
     result.addAll({'totalRating': totalRating});
     result.addAll({'reviewCount': reviewCount});
     result.addAll({'averageRating': averageRating});
-  
+
     return result;
   }
 
@@ -41,6 +40,3 @@ class Rating {
 
   factory Rating.fromJson(String source) => Rating.fromMap(json.decode(source));
 }
-
-// Rating emptyRating =
-//     Rating(totalRating: 0.0, reviewCount: 0, averageRating: 0.0);
