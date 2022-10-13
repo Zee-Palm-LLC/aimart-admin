@@ -1,4 +1,5 @@
 import 'package:aimart_admin/app/data/data.dart';
+import 'package:aimart_admin/app/modules/home/model/product_color_model.dart';
 import 'package:aimart_admin/app/modules/home/model/product_size_model.dart';
 import 'package:aimart_admin/app/modules/home/model/producttag.dart';
 import 'package:aimart_admin/app/data/helper/profuct_category.dart';
@@ -31,7 +32,7 @@ class _AddProductState extends State<AddProduct> {
   final TextEditingController _discountPrice = TextEditingController();
   ProductCategory selectedProductCategory = ProductCategory.all;
   Tagtype selectedProductTag = Tagtype.bestseller;
-
+  List<ProductColor> selectedColors = [];
   final _items = sizeList
       .map((size) => MultiSelectItem<ProductSize>(size, size.size))
       .toList();
