@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
+import 'package:aimart_admin/app/data/data.dart';
 import 'package:aimart_admin/app/data/helper/product_category.dart';
 import 'package:aimart_admin/app/modules/home/model/review_model.dart';
 
@@ -56,12 +57,12 @@ class Product {
       productType: map['productType'] as String,
       productPrice: map['productPrice'] as double,
       oldPrice: map['oldPrice'] != null ? map['oldPrice'] as double : null,
-      productImages: List<String>.from((map['productImages'] as List<String>)),
+      productImages: List<String>.from((map['productImages'] as List<dynamic>)),
       productTag: Tagtype.values[map['productTag']],
       productCategory: ProductCategory.values[map['productCategory']],
       description: map['description'] as String,
-      colors: List<String>.from((map['colors'] as List<String>)),
-      sizes: List<String>.from((map['sizes'] as List<String>)),
+      colors: List<String>.from((map['colors'] as List<dynamic>)),
+      sizes: List<String>.from((map['sizes'] as List<dynamic>)),
       rating: map['rating'] != null
           ? Rating.fromMap(map['rating'] as Map<String, dynamic>)
           : null,
@@ -88,3 +89,23 @@ List<String> color = [
   '#000000',
   '#0000FF',
 ];
+List<Product> products = [
+  product1,
+  product1,
+  product1,
+  product1,
+  product1,
+
+  
+];
+
+Product product1 = Product(
+  productImages: [CustomAssets.kvisible],
+  productName: 'Black Maria Sytle',
+  productType: "Shirt & Hats",
+  productPrice: 49.99,
+  productTag: Tagtype.trending,
+  productCategory: ProductCategory.women,
+  oldPrice: 53.00, 
+  productId: '', colors: [], description: '', sizes: [],
+);

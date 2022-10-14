@@ -1,5 +1,6 @@
 import 'package:aimart_admin/app/data/data.dart';
 import 'package:aimart_admin/app/modules/home/controllers/auth_controller.dart';
+import 'package:aimart_admin/app/modules/home/model/product_model.dart';
 import 'package:aimart_admin/app/modules/home/views/admin_panel/add_product.dart';
 import 'package:aimart_admin/app/modules/home/views/admin_panel/dash_borad_screen.dart';
 import 'package:aimart_admin/app/modules/home/views/admin_panel/delete_product.dart';
@@ -32,7 +33,7 @@ class _WebViewMainState extends State<WebViewMain> {
         break;
       case UpdateProduct.id:
         setState(() {
-          selectedSCreen = UpdateProduct();
+          selectedSCreen = UpdateProduct(product: products[0],);
         });
         break;
       case DeleteProduct.id:

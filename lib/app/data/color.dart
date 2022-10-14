@@ -15,4 +15,6 @@ class CustomColors {
   static Color kGolden = Color(0xffDB9B10);
   static Color kLightBackground = const Color(0XFFDFE8F6);
   static Color kBalck2 = const Color(0XFF101010);
+  static Color kTrendingBlue = const Color(0xff1E3E8A);
+  static Color kdarkred = const Color(0xffBD3325);
 }

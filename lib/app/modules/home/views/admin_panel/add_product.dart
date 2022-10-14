@@ -1,4 +1,5 @@
 import 'package:aimart_admin/app/data/data.dart';
+import 'package:aimart_admin/app/data/helper/product_category.dart';
 import 'package:aimart_admin/app/modules/home/controllers/product_controller.dart';
 import 'package:aimart_admin/app/modules/home/model/product_model.dart';
 import 'package:aimart_admin/app/data/helper/product_category.dart';
@@ -26,6 +27,8 @@ class AddProduct extends StatefulWidget {
 }
 
 class _AddProductState extends State<AddProduct> {
+
+
   final _formKey = GlobalKey<FormState>();
   ProductController pc = Get.find<ProductController>();
   final TextEditingController _productName = TextEditingController();
@@ -329,15 +332,16 @@ class _AddProductState extends State<AddProduct> {
               child: ListView.separated(
                   scrollDirection: Axis.horizontal,
                   itemBuilder: (context, index) {
+                  
                     return ProductColorCard(
                         onTap: () {
                           selectedColor.contains(color[index])
                               ? selectedColor.remove(color[index])
                               : selectedColor.add(color[index]);
                           setState(() {});
-                          print(selectedColor);
+                          
                         },
-                        cardColor: CustomColors.kError,
+                        cardColor: CustomColors.kGolden,
                         child: selectedColor.contains(color[index])
                             ? Container(
                                 height: 40.h,
@@ -369,6 +373,19 @@ class _AddProductState extends State<AddProduct> {
                           description: _productdescription.text,
                           colors: selectedColor,
                           sizes: selectedSize));
+                   _productName.clear();
+                   _productType.clear();
+                   _price.clear();
+                   _discountPrice.clear();
+                   selectedProductCategory = ProductCategory.all;
+                   selectedProductTag = Tagtype.bestseller;
+                   images = [];
+                  selectedSize = [];
+                  selectedColor = [];
+
+
+
+
                 }
               },
               backgroundColor: CustomColors.kPrimary,

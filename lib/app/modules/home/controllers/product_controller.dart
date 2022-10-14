@@ -8,16 +8,57 @@ import '../model/product_model.dart';
 class ProductController extends GetxController {
   DatabaseService db = DatabaseService();
 
+  final Rx<List<Product>> _products = Rx<List<Product>>([]);
+  List<Product> get products => _products.value;
+
+  @override
+  void onInit() {
+    super.onInit();
+    _products.bindStream(
+        db.productsCollection.snapshots().map((QuerySnapshot query) {
+      List<Product> retVal = [];
+      for (var element in query.docs) {
+        retVal.add(Product.fromMap(element.data() as Map<String, dynamic>));
+      }
+      return retVal;
+    }));
+  }
+
   Future<void> addProduct({required Product product}) async {
     showLoadingDialog(message: 'Adding Product');
     try {
       var doc = db.productsCollection.doc();
       product.productId = doc.id;
-      await db.productsCollection.doc().set(product.toMap());
+      await doc.set(product.toMap());
       hideLoadingDialog();
     } on Exception catch (e) {
       hideLoadingDialog();
       Get.snackbar("Product Not Added", e.toString());
+    }
+  }
+
+  Future<void> updateProduct({required Product product}) async {
+    showLoadingDialog(message: 'Updating Product');
+    try {
+      await db.productsCollection
+          .doc(product.productId)
+          .update(product.toMap());
+      Get.back();
+      hideLoadingDialog();
+    } on Exception catch (e) {
+      hideLoadingDialog();
+      Get.snackbar("Product not Update", e.toString());
+    }
+  }
+
+  Future<void> deleteProduct({required Product product}) async {
+    showLoadingDialog(message: 'Deleting Product');
+    try {
+      await db.productsCollection.doc(product.productId).delete();
+      hideLoadingDialog();
+    } on Exception catch (e) {
+      hideLoadingDialog();
+      Get.snackbar("Product is not Delete", e.toString());
     }
   }
 }
