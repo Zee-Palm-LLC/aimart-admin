@@ -88,15 +88,26 @@ class _AddProductState extends State<AddProduct> {
                     itemCount: images?.length ?? 0,
                     itemBuilder: (context, index) {
                       return Container(
-                        height: 100.h,
-                        width: 100.w,
-                        decoration: BoxDecoration(
-                            color: CustomColors.kBlack,
-                            borderRadius: BorderRadius.circular(10.r),
-                            image: DecorationImage(
-                                image: NetworkImage(images![index]),
-                                fit: BoxFit.cover)),
-                      );
+                          height: 100.h,
+                          width: 100.w,
+                          alignment: Alignment.topRight,
+                          decoration: BoxDecoration(
+                              color: CustomColors.kBlack,
+                              borderRadius: BorderRadius.circular(10.r),
+                              image: DecorationImage(
+                                  image: NetworkImage(images![index]),
+                                  fit: BoxFit.cover)),
+                          child: IconButton(
+                              constraints: BoxConstraints(),
+                              padding: EdgeInsets.zero,
+                              onPressed: () {
+                                images!.removeAt(index);
+                                setState(() {});
+                              },
+                              icon: Icon(
+                                Icons.cancel,
+                                color: CustomColors.kBlack,
+                              )));
                     },
                     separatorBuilder: (context, index) => SizedBox(width: 9.w),
                   )
@@ -373,15 +384,6 @@ class _AddProductState extends State<AddProduct> {
                           description: _productdescription.text,
                           colors: selectedColor,
                           sizes: selectedSize));
-                   _productName.clear();
-                   _productType.clear();
-                   _price.clear();
-                   _discountPrice.clear();
-                   selectedProductCategory = ProductCategory.all;
-                   selectedProductTag = Tagtype.bestseller;
-                   images = [];
-                  selectedSize = [];
-                  selectedColor = [];
 
 
 
@@ -392,7 +394,34 @@ class _AddProductState extends State<AddProduct> {
               child: Text(
                 "Add Product",
                 style: CustomTextStyles.kBold16,
-              ))
+              )),
+          SizedBox(height: 40.h),
+          Center(
+            child: PrimaryAppButton(
+                width: 300.w,
+                onTap: () {
+                  if (_formKey.currentState!.validate()) {
+                    pc.addProduct(
+                        product: Product(
+                            productId: '',
+                            productName: _productName.text,
+                            productType: _productType.text,
+                            productPrice: double.parse(_price.text),
+                            oldPrice: double.parse(_discountPrice.text),
+                            productCategory: selectedProductCategory,
+                            productImages: images!,
+                            productTag: selectedProductTag,
+                            description: _productdescription.text,
+                            colors: selectedColor,
+                            sizes: selectedSize));
+                  }
+                },
+                backgroundColor: CustomColors.kPrimary,
+                child: Text(
+                  "Add Product",
+                  style: CustomTextStyles.kBold16,
+                )),
+          ),
         ],
       ),
     ));
