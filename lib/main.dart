@@ -1,16 +1,20 @@
 import 'package:aimart_admin/app/data/theme.dart';
 import 'package:aimart_admin/app/modules/home/bindings/home_binding.dart';
+import 'package:aimart_admin/app/modules/home/model/algolia.dart';
 import 'package:aimart_admin/app/modules/home/views/splash/splash_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:algolia/algolia.dart';
 
 import 'package:get/get.dart';
 import 'firebase_options.dart';
 
 void main() async {
+
   WidgetsFlutterBinding.ensureInitialized();
+  Algolia algolia = AlgoliaApplication.algolia;
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(const MyApp());
   SystemChrome.setPreferredOrientations(

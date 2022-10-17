@@ -1,3 +1,4 @@
+import 'package:aimart_admin/app/modules/home/model/algolia.dart';
 import 'package:aimart_admin/app/modules/home/widgets/loading_dialog.dart';
 import 'package:aimart_admin/app/services/database_services.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -10,6 +11,7 @@ class ProductController extends GetxController {
 
   final Rx<List<Product>> _products = Rx<List<Product>>([]);
   List<Product> get products => _products.value;
+   var algolia = AlgoliaApplication.algolia;
 
   @override
   void onInit() {
@@ -30,6 +32,8 @@ class ProductController extends GetxController {
       var doc = db.productsCollection.doc();
       product.productId = doc.id;
       await doc.set(product.toMap());
+      await algolia.instance.index('document').addObject(product.toMap());
+      
       hideLoadingDialog();
     } on Exception catch (e) {
       hideLoadingDialog();
@@ -43,6 +47,9 @@ class ProductController extends GetxController {
       await db.productsCollection
           .doc(product.productId)
           .update(product.toMap());
+      await algolia.instance.index('document')
+      .object(product.productId).
+      updateData(product.toMap());
       Get.back();
       hideLoadingDialog();
     } on Exception catch (e) {
@@ -55,6 +62,10 @@ class ProductController extends GetxController {
     showLoadingDialog(message: 'Deleting Product');
     try {
       await db.productsCollection.doc(product.productId).delete();
+       await algolia.instance
+      .index('document')
+      .object(product.productId)
+      .deleteObject();
       hideLoadingDialog();
     } on Exception catch (e) {
       hideLoadingDialog();

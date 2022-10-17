@@ -1,3 +1,4 @@
+import 'package:aimart_admin/app/modules/home/model/product_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 
@@ -22,5 +23,9 @@ class AuthController extends GetxController {
       hideLoadingDialog();
       Get.snackbar('Error', err.message!);
     }
+  }
+
+  Future<void> addtoAlggolira({required Product product}) async {
+    
   }
 }

@@ -396,32 +396,6 @@ class _AddProductState extends State<AddProduct> {
                 style: CustomTextStyles.kBold16,
               )),
           SizedBox(height: 40.h),
-          Center(
-            child: PrimaryAppButton(
-                width: 300.w,
-                onTap: () {
-                  if (_formKey.currentState!.validate()) {
-                    pc.addProduct(
-                        product: Product(
-                            productId: '',
-                            productName: _productName.text,
-                            productType: _productType.text,
-                            productPrice: double.parse(_price.text),
-                            oldPrice: double.parse(_discountPrice.text),
-                            productCategory: selectedProductCategory,
-                            productImages: images!,
-                            productTag: selectedProductTag,
-                            description: _productdescription.text,
-                            colors: selectedColor,
-                            sizes: selectedSize));
-                  }
-                },
-                backgroundColor: CustomColors.kPrimary,
-                child: Text(
-                  "Add Product",
-                  style: CustomTextStyles.kBold16,
-                )),
-          ),
         ],
       ),
     ));
