@@ -53,12 +53,12 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyCcu2Y-TxUv5eSKFXGTi1BTG-ywm2DIn-Y',
-    appId: '1:396141656475:web:f17a1edc13efc64780c93e',
-    messagingSenderId: '396141656475',
-    projectId: 'ai-mart-4154b',
-    authDomain: 'ai-mart-4154b.firebaseapp.com',
-    storageBucket: 'ai-mart-4154b.appspot.com',
-    measurementId: 'G-8S11BDBP15',
+    apiKey: 'AIzaSyAY4kZzuCL_J-fbot3tYgeOwduxidetC1s',
+    appId: '1:985249804118:web:da4271d1e4c3b97d37b0f7',
+    messagingSenderId: '985249804118',
+    projectId: 'aimart-9d86d',
+    authDomain: 'aimart-9d86d.firebaseapp.com',
+    storageBucket: 'aimart-9d86d.appspot.com',
+    measurementId: 'G-4S9DZ9XXG1',
   );
 }

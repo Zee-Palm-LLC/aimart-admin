@@ -83,11 +83,11 @@ List<String> sizeList = [
   'S',
 ];
 List<String> color = [
-  '#FFFFFF',
-  '#FF0000',
-  '#00FF00.',
-  '#000000',
-  '#0000FF',
+  '0xFFFFFFFF',
+  '0xFFFF0000',
+  '0xFF00FF00',
+  '0xFF000000',
+  '0xFF0000FF',
 ];
 List<Product> products = [
   product1,
@@ -95,8 +95,6 @@ List<Product> products = [
   product1,
   product1,
   product1,
-
-  
 ];
 
 Product product1 = Product(
@@ -106,6 +104,9 @@ Product product1 = Product(
   productPrice: 49.99,
   productTag: Tagtype.trending,
   productCategory: ProductCategory.women,
-  oldPrice: 53.00, 
-  productId: '', colors: [], description: '', sizes: [],
+  oldPrice: 53.00,
+  productId: '',
+  colors: [],
+  description: '',
+  sizes: [],
 );

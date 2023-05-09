@@ -2,7 +2,6 @@ import 'package:aimart_admin/app/data/data.dart';
 import 'package:aimart_admin/app/data/helper/product_category.dart';
 import 'package:aimart_admin/app/modules/home/controllers/product_controller.dart';
 import 'package:aimart_admin/app/modules/home/model/product_model.dart';
-import 'package:aimart_admin/app/data/helper/product_category.dart';
 import 'package:aimart_admin/app/modules/home/widgets/add_image.dart';
 import 'package:aimart_admin/app/modules/home/widgets/color_card.dart';
 import 'package:aimart_admin/app/modules/home/widgets/custom_button.dart';
@@ -13,7 +12,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:multi_select_flutter/multi_select_flutter.dart';
 
 import '../../../../services/firebase_storage.dart';
 import '../../../../services/image_picker_services.dart';
@@ -27,8 +25,6 @@ class AddProduct extends StatefulWidget {
 }
 
 class _AddProductState extends State<AddProduct> {
-
-
   final _formKey = GlobalKey<FormState>();
   ProductController pc = Get.find<ProductController>();
   final TextEditingController _productName = TextEditingController();
@@ -343,16 +339,14 @@ class _AddProductState extends State<AddProduct> {
               child: ListView.separated(
                   scrollDirection: Axis.horizontal,
                   itemBuilder: (context, index) {
-                  
                     return ProductColorCard(
                         onTap: () {
                           selectedColor.contains(color[index])
                               ? selectedColor.remove(color[index])
                               : selectedColor.add(color[index]);
                           setState(() {});
-                          
                         },
-                        cardColor: CustomColors.kGolden,
+                        cardColor: Color(int.parse(color[index])),
                         child: selectedColor.contains(color[index])
                             ? Container(
                                 height: 40.h,
@@ -384,10 +378,6 @@ class _AddProductState extends State<AddProduct> {
                           description: _productdescription.text,
                           colors: selectedColor,
                           sizes: selectedSize));
-
-
-
-
                 }
               },
               backgroundColor: CustomColors.kPrimary,
