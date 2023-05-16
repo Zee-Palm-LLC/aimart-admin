@@ -11,7 +11,7 @@ class ProductController extends GetxController {
 
   final Rx<List<Product>> _products = Rx<List<Product>>([]);
   List<Product> get products => _products.value;
-   var algolia = AlgoliaApplication.algolia;
+  var algolia = AlgoliaApplication.algolia;
 
   @override
   void onInit() {
@@ -33,8 +33,9 @@ class ProductController extends GetxController {
       product.productId = doc.id;
       await doc.set(product.toMap());
       await algolia.instance.index('document').addObject(product.toMap());
-      
+
       hideLoadingDialog();
+      Get.back();
     } on Exception catch (e) {
       hideLoadingDialog();
       Get.snackbar("Product Not Added", e.toString());
@@ -47,9 +48,10 @@ class ProductController extends GetxController {
       await db.productsCollection
           .doc(product.productId)
           .update(product.toMap());
-      await algolia.instance.index('document')
-      .object(product.productId).
-      updateData(product.toMap());
+      await algolia.instance
+          .index('document')
+          .object(product.productId)
+          .updateData(product.toMap());
       Get.back();
       hideLoadingDialog();
     } on Exception catch (e) {
@@ -62,10 +64,10 @@ class ProductController extends GetxController {
     showLoadingDialog(message: 'Deleting Product');
     try {
       await db.productsCollection.doc(product.productId).delete();
-       await algolia.instance
-      .index('document')
-      .object(product.productId)
-      .deleteObject();
+      await algolia.instance
+          .index('document')
+          .object(product.productId)
+          .deleteObject();
       hideLoadingDialog();
     } on Exception catch (e) {
       hideLoadingDialog();

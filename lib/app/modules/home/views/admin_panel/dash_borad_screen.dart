@@ -45,7 +45,7 @@ class DashBoardScreen extends StatelessWidget {
           SizedBox(height: 10.h),
           Obx(() {
             return pc.products.isEmpty
-                ? Center(child: CircularProgressIndicator())
+                ? Center(child: Text("No Products"),)
                 : Expanded(
                     child: GridView.builder(
                         padding: EdgeInsets.symmetric(horizontal: 28.w),

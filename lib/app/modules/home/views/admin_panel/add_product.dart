@@ -70,6 +70,7 @@ class _AddProductState extends State<AddProduct> {
                                       file: imgData,
                                       folderName: "ProductImages");
                               images!.add(productImage);
+                              print(images);
                               setState(() {});
                             }
                           : () {
@@ -88,15 +89,15 @@ class _AddProductState extends State<AddProduct> {
                           width: 100.w,
                           alignment: Alignment.topRight,
                           decoration: BoxDecoration(
-                              color: CustomColors.kBlack,
                               borderRadius: BorderRadius.circular(10.r),
                               image: DecorationImage(
                                   image: NetworkImage(images![index]),
                                   fit: BoxFit.cover)),
                           child: IconButton(
-                              constraints: BoxConstraints(),
+                              constraints: const BoxConstraints(),
                               padding: EdgeInsets.zero,
                               onPressed: () {
+                                
                                 images!.removeAt(index);
                                 setState(() {});
                               },
