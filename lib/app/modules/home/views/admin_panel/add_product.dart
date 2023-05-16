@@ -97,7 +97,6 @@ class _AddProductState extends State<AddProduct> {
                               constraints: const BoxConstraints(),
                               padding: EdgeInsets.zero,
                               onPressed: () {
-                                
                                 images!.removeAt(index);
                                 setState(() {});
                               },
@@ -268,34 +267,30 @@ class _AddProductState extends State<AddProduct> {
                 ],
               ),
               SizedBox(width: 20.w),
-              selectedProductTag == Tagtype.discount
-                  ? Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "Discount Price",
-                          style: CustomTextStyles.kBold16
-                              .copyWith(color: CustomColors.kDarkBlue),
-                        ),
-                        SizedBox(height: 10.h),
-                        CustomTextFormField(
-                            controller: _discountPrice,
-                            isPassword: false,
-                            inputFormatters: [
-                              FilteringTextInputFormatter.digitsOnly
-                            ],
-                            textInputAction: TextInputAction.next,
-                            keyboardType: TextInputType.name,
-                            hintText: "Product Type",
-                            validator: (value) {
-                              if (value!.isEmpty) {
-                                return 'Please enter product type';
-                              }
-                              return null;
-                            })
-                      ],
-                    )
-                  : const SizedBox(),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Discount Price",
+                    style: CustomTextStyles.kBold16
+                        .copyWith(color: CustomColors.kDarkBlue),
+                  ),
+                  SizedBox(height: 10.h),
+                  CustomTextFormField(
+                      controller: _discountPrice,
+                      isPassword: false,
+                      inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                      textInputAction: TextInputAction.next,
+                      keyboardType: TextInputType.name,
+                      hintText: "Product Type",
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return 'Please enter product type';
+                        }
+                        return null;
+                      })
+                ],
+              )
             ],
           ),
           SizedBox(height: 20.h),
