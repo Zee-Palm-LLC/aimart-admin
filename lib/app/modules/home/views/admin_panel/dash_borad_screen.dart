@@ -17,110 +17,116 @@ class DashBoardScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: [
-          Container(
-            alignment: Alignment.topLeft,
-            padding: const EdgeInsets.all(10),
-            child: const Text(
-              'Dashboard',
-              style: TextStyle(
-                fontWeight: FontWeight.w700,
-                fontSize: 36,
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              alignment: Alignment.topLeft,
+              padding: const EdgeInsets.all(10),
+              child: const Text(
+                'Dashboard',
+                style: TextStyle(
+                  fontWeight: FontWeight.w700,
+                  fontSize: 36,
+                ),
               ),
             ),
-          ),
-          SizedBox(height: 10.h),
-          Container(
-            alignment: Alignment.topLeft,
-            padding: const EdgeInsets.all(10),
-            child: const Text(
-              'All Product',
-              style: TextStyle(
-                fontWeight: FontWeight.w400,
-                fontSize: 32,
+            SizedBox(height: 10.h),
+            Container(
+              alignment: Alignment.topLeft,
+              padding: const EdgeInsets.all(10),
+              child: const Text(
+                'All Product',
+                style: TextStyle(
+                  fontWeight: FontWeight.w400,
+                  fontSize: 32,
+                ),
               ),
             ),
-          ),
-          SizedBox(height: 10.h),
-          Obx(() {
-            return pc.products.isEmpty
-                ? Center(child: Text("No Products"),)
-                : Expanded(
-                    child: GridView.builder(
-                        padding: EdgeInsets.symmetric(horizontal: 28.w),
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 4,
-                            childAspectRatio: 160.w / 200.h,
-                            crossAxisSpacing: 25.h,
-                            mainAxisSpacing: 14.h),
-                        itemCount: pc.products.length,
-                        itemBuilder: (BuildContext ctx, index) {
-                          return InkWell(
-                            onTap: () {
-                              Get.to(() => UpdateProduct(
-                                    product: pc.products[index],
-                                  ));
-                            },
-                            child: ItemInGridSale(
-                              product: pc.products[index],
-                              onPressed: () {
-                                Get.dialog(AlertDialog(
-                                  title: const Text(
-                                    'Are You Sure You want to delete?',
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.w400,
-                                      fontSize: 32,
-                                    ),
-                                  ),
-                                  actions: [
-                                    Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: [
-                                        PrimaryAppButton(
-                                          width: 100,
-                                          backgroundColor:
-                                              CustomColors.kdarkred,
-                                          child: Text('Delete',
-                                              style: CustomTextStyles.kBold16
-                                                  .copyWith(
-                                                      color:
-                                                          CustomColors.kWhite)),
-                                          onTap: () {
-                                            pc.deleteProduct(
-                                                product: pc.products[index]);
-                                            Get.back();
-                                          },
+            SizedBox(height: 10.h),
+            Obx(() {
+              return pc.products.isEmpty
+                  ? Center(
+                      child: Text("No Products"),
+                    )
+                  : Padding(
+                    padding: const EdgeInsets.all(20),
+                    child: Wrap(
+                      runSpacing: 10.w,
+                      
+                      spacing: 10.w,
+                      children: List.generate(
+                          pc.products.length,
+                          (index) => InkWell(
+                                onTap: () {
+                                  Get.to(() => UpdateProduct(
+                                        product: pc.products[index],
+                                      ));
+                                },
+                                child: ItemInGridSale(
+                                  product: pc.products[index],
+                                  onPressed: () {
+                                    Get.dialog(AlertDialog(
+                                      title: const Text(
+                                        'Are You Sure You want to delete?',
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.w400,
+                                          fontSize: 32,
                                         ),
-                                        SizedBox(
-                                          width: 14.w,
-                                        ),
-                                        PrimaryAppButton(
-                                          width: 100,
-                                          backgroundColor:
-                                              CustomColors.kPrimary,
-                                          child: Text('Cancel',
-                                              style: CustomTextStyles.kBold16
-                                                  .copyWith(
-                                                      color:
-                                                          CustomColors.kWhite)),
-                                          onTap: () {
-                                            Get.back();
-                                          },
-                                        ),
+                                      ),
+                                      actions: [
+                                        Row(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: [
+                                            PrimaryAppButton(
+                                              width: 100,
+                                              backgroundColor:
+                                                  CustomColors.kdarkred,
+                                              child: Text('Delete',
+                                                  style: CustomTextStyles
+                                                      .kBold16
+                                                      .copyWith(
+                                                          color: CustomColors
+                                                              .kWhite)),
+                                              onTap: () {
+                                                pc.deleteProduct(
+                                                    product:
+                                                        pc.products[index]);
+                                                Get.back();
+                                              },
+                                            ),
+                                            SizedBox(
+                                              width: 14.w,
+                                            ),
+                                            PrimaryAppButton(
+                                              width: 100,
+                                              backgroundColor:
+                                                  CustomColors.kPrimary,
+                                              child: Text('Cancel',
+                                                  style: CustomTextStyles
+                                                      .kBold16
+                                                      .copyWith(
+                                                          color: CustomColors
+                                                              .kWhite)),
+                                              onTap: () {
+                                                Get.back();
+                                              },
+                                            ),
+                                          ],
+                                        )
                                       ],
-                                    )
-                                  ],
-                                ));
-                              },
-                              isFavourite: Colors.red,
-                            ),
-                          );
-                        }),
+                                    ));
+                                  },
+                                  isFavourite: Colors.red,
+                                ),
+                              )),
+                    ),
                   );
-          })
-        ],
+            })
+          ],
+        ),
       ),
     );
   }
